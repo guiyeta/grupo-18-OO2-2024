@@ -29,8 +29,19 @@ public class UserController {
 
 	@GetMapping("/loginsuccess")
 	public String loginCheck() {
-		//User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//user.getUserRoles()
-		return "redirect:/user";
-	}
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
+			String role = user.getUserRoles().iterator().next().getRole();
+  
+			System.out.println("ROL DEL USUARIO" + role);
+
+			if (role.equals("ROLE_ADMIN")) {
+				return "redirect:/admin/dashboard";
+			}
+
+			return "redirect:/user/dashboard";
+    }
+
+
 }

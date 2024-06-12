@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Information</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h1>Stock Information</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Product Name</th>
+        <th>Current Stock</th>
+        <th>Critical Stock</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="stock : ${stocks}">
+        <td th:text="${stock.productName}"></td>
+        <td th:text="${stock.currentStock}"></td>
+        <td th:text="${stock.criticStock}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
