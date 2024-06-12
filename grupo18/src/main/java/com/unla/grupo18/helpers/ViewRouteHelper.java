@@ -10,7 +10,11 @@ public class ViewRouteHelper {
 	public final static String USER_LOGIN = "user/login";
 	public final static String USER_LOGOUT = "user/logout";
 	
-	/**** Redirects ****/
-	public final static String ROUTE = "/index";
+
 	
+	/**** Redirects ****/
+	//Cliente
+	public final static String ROUTE = "/index";
+	//ADMIN
+	public final static String ADMIN ="/admin";
 }

@@ -27,8 +27,12 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		com.unla.grupo18.entities.User user = userRepository.findByUsernameAndFetchUserRolesEagerly(username);
-		return buildUser(user, buildGrantedAuthorities(user.getUserRoles()));
+		com.unla.grupo18.entities.User user = userRepository.findByUsername(username);
+		 if (user == null) {
+	            throw new UsernameNotFoundException("User not found: " + username);
+	        }
+
+		return buildUser(user, buildGrantedAuthorities(user.getUserRole()));
 	}
 
 	private User buildUser(com.unla.grupo18.entities.User user, List<GrantedAuthority> grantedAuthorities) {
@@ -37,11 +41,12 @@ public class UserService implements UserDetailsService {
 						grantedAuthorities);
 	}
 
-	private List<GrantedAuthority> buildGrantedAuthorities(Set<UserRole> userRoles) {
+	private List<GrantedAuthority> buildGrantedAuthorities(UserRole userRole) {
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-		for(UserRole userRole: userRoles) {
+		
 			grantedAuthorities.add(new SimpleGrantedAuthority(userRole.getRole()));
-		}
+		
 		return new ArrayList<>(grantedAuthorities);
 	}
+	
 }

@@ -1,11 +1,14 @@
 package com.unla.grupo18.controllers;
 
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import com.unla.grupo18.entities.User;
 
 import com.unla.grupo18.helpers.ViewRouteHelper;
 
@@ -26,6 +29,12 @@ public class HomeController {
 		ModelAndView mV = new ModelAndView(ViewRouteHelper.HELLO);
 		mV.addObject("name", name);
 		return mV;
+	}
+	@GetMapping("/admin")
+	public ModelAndView admin() {
+		ModelAndView modelAndView = new ModelAndView(ViewRouteHelper.ADMIN);
+		
+		return modelAndView;
 	}
 
 	@GetMapping("/")

@@ -1,6 +1,7 @@
 package com.unla.grupo18.entities;
 
 import java.time.LocalDateTime;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,11 +10,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,8 +40,8 @@ public class User {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="user")
-	private Set<UserRole> userRoles = new HashSet<>();
+	@OneToOne(mappedBy="user")
+	private UserRole userRole;
 
 	public User(String username, String password, boolean enabled) {
 		this.username = username;
@@ -49,11 +49,11 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	public User(String username, String password, boolean enabled, Set<UserRole> userRoles) {
+	public User(String username, String password, boolean enabled, UserRole userRole) {
 		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
-		this.userRoles = userRoles;
+		this.userRole= userRole;
 	}
 	
 }
