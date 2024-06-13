@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 import com.unla.grupo18.entities.User;
 
@@ -25,16 +26,43 @@ public class HomeController {
 	}
 
 	@GetMapping("/hello/{name}")
+	
 	public ModelAndView helloParams2(@PathVariable("name") String name) {
-		ModelAndView mV = new ModelAndView(ViewRouteHelper.HELLO);
-		mV.addObject("name", name);
+		ModelAndView mV;
+		 org.springframework.security.core.userdetails.User user =(org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		   String userStr=user.getAuthorities().toString();
+		   if (userStr.contains("Client")){
+			  mV = new ModelAndView(ViewRouteHelper.INDEX);
+			  
+			   
+		   }else {
+			   mV = new ModelAndView(ViewRouteHelper.HELLO);
+			   mV.addObject("name", name);
+			  
+		   }
+		  
+		
+		
 		return mV;
+		
 	}
 	@GetMapping("/admin")
 	public ModelAndView admin() {
-		ModelAndView modelAndView = new ModelAndView(ViewRouteHelper.ADMIN);
+		ModelAndView mV=null;
+		 org.springframework.security.core.userdetails.User user =(org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		   String userStr=user.getAuthorities().toString();
+		   if (userStr.contains("Admin")){
+			  mV = new ModelAndView(ViewRouteHelper.ADMIN);
+			  
+			   
+		   }else if(userStr.contains("Client")){
+			   mV = new ModelAndView(ViewRouteHelper.INDEX);
+			   
+		   }
+		  
 		
-		return modelAndView;
+		
+		return mV;
 	}
 
 	@GetMapping("/")

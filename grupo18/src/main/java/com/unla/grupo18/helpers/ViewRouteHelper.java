@@ -16,5 +16,5 @@ public class ViewRouteHelper {
 	//Cliente
 	public final static String ROUTE = "/index";
 	//ADMIN
-	public final static String ADMIN ="/admin";
+	public final static String ADMIN ="/user/admin";
 }
