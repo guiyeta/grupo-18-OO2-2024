@@ -13,8 +13,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StockDto {
-
+	
+	private int id;
     private int currentStock;
     private int criticStock;
     private String productName;
+    
 }
