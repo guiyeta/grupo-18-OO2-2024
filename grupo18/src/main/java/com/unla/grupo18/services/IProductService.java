@@ -23,7 +23,7 @@ public interface IProductService {
 
 
    public Product save(ProductDto productDto) throws Exception;
-    public ProductDto update(Product product) throws Exception;
+    public Product update(ProductDto productDto) throws Exception;
 
     public boolean remove(Long id) throws ProductNotFoundException;
 

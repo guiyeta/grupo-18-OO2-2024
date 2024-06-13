@@ -80,11 +80,18 @@ public class ProductService implements IProductService {
 
     }
 
-
     @Override
-    public ProductDto update(Product product) throws Exception {
-        // TODO: Realizar validaciones
-        return modelMapper.map(productRepository.save(product),ProductDto.class);
+    public Product update(ProductDto productDto) throws Exception {
+
+        Product productToUpdate = productRepository.findById(productDto.getId()).orElseThrow(() -> new Exception("Product not found"));
+
+        productToUpdate.setName(productDto.getName());
+        productToUpdate.setDescription(productDto.getDescription());
+        productToUpdate.setCode(productDto.getCode());
+        productToUpdate.setPrice(productDto.getPrice());
+
+        return productToUpdate = productRepository.save(productToUpdate);
+
     }
 
 
