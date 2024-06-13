@@ -29,14 +29,13 @@ public class UserController {
 
 	@GetMapping("/loginsuccess")
 	public String loginCheck() {
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-
-			String role = user.getUserRoles().iterator().next().getRole();
+			//User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			//String role = user.getUserRoles().iterator().next().getRole();
   
+			String role =  SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
 			System.out.println("ROL DEL USUARIO" + role);
 
-			if (role.equals("ROLE_ADMIN")) {
+			if (role.contains("ROLE_ADMIN")) {
 				return "redirect:/admin/dashboard";
 			}
 
