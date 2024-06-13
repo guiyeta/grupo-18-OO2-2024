@@ -36,10 +36,10 @@ public class UserController {
 			System.out.println("ROL DEL USUARIO" + role);
 
 			if (role.contains("ROLE_ADMIN")) {
-				return "redirect:/admin/dashboard";
+				return "redirect:/index";
 			}
 
-			return "redirect:/user/dashboard";
+			return "redirect:products/user/dashboard";
     }
 
 

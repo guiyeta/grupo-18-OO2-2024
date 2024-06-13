@@ -2,6 +2,7 @@ package com.unla.grupo18.controllers;
 
 
 import com.unla.grupo18.dto.ProductDto;
+import com.unla.grupo18.entities.Product;
 import com.unla.grupo18.services.IProductService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -29,6 +30,13 @@ public class ProductController {
         List<ProductDto> products = productService.getAll();
         model.addAttribute("products", products);
         return "product/product-list";
+    }
+    
+    @GetMapping("/user/dashboard")
+    String userGetAllProducts(Model model){
+        List<ProductDto> products = productService.getAll();
+        model.addAttribute("products", products);
+        return "product/user-product-list";
     }
 
     @GetMapping("/add")
@@ -97,7 +105,9 @@ public class ProductController {
         }
         return "redirect:/products"; // Redirige a la lista de productos después de eliminar
     }
+    
+   
 
-
+    
 
 }

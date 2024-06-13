@@ -12,5 +12,8 @@ public class ViewRouteHelper {
 	
 	/**** Redirects ****/
 	public final static String ROUTE = "/index";
+	public final static String ADMIN = "/index";
+	public final static String USER  = "redirect:/products/user/dashboard";
+	
 	
 }
