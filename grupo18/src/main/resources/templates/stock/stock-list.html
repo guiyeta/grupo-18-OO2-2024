@@ -28,6 +28,10 @@
             <td th:text="${stock.productName}"></td>
             <td th:text="${stock.currentStock}"></td>
             <td th:text="${stock.criticStock}"></td>            
+            <td th:if="${stock.currentStock <= stock.criticStock}">
+                <button class="btn btn-warning">Restock Needed</button>
+            </td>
+            <td th:unless="${stock.currentStock <= stock.criticStock}"></td>
         </tr>
         </tbody>
     </table>
