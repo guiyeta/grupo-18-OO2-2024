@@ -8,9 +8,11 @@ import com.unla.grupo18.repositories.IProductRepository;
 import com.unla.grupo18.repositories.IStockRepository;
 import com.unla.grupo18.services.IStockService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -18,10 +20,15 @@ import java.util.stream.Collectors;
 public class StockService implements IStockService {
 
     private final IStockRepository stockRepository;
+    
+    @Autowired
+    private  IProductRepository productRepository;
+    
     private final ModelMapper modelMapper = new ModelMapper();
 
     public StockService(IStockRepository stockRepository) {
         this.stockRepository = stockRepository;
+		
     }
 
     @Override
@@ -32,4 +39,5 @@ public class StockService implements IStockService {
                 .map(stock -> modelMapper.map(stock, StockDto.class))
                 .collect(Collectors.toList());
     }
+    
 }

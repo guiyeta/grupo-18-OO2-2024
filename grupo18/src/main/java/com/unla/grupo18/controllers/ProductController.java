@@ -4,21 +4,30 @@ package com.unla.grupo18.controllers;
 import com.unla.grupo18.dto.ProductDto;
 import com.unla.grupo18.entities.Product;
 import com.unla.grupo18.services.IProductService;
+import com.unla.grupo18.services.implementation.ProductService;
+import com.unla.grupo18.entities.PurchaseProduct;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.ArrayList;
+
 
 import java.util.List;
+import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/products")
 public class ProductController {
 
     private final IProductService productService;
+    @Autowired
+    private ProductService prod;
     private final ModelMapper modelMapper = new ModelMapper();
     public ProductController(IProductService productService) {
         this.productService = productService;
@@ -32,12 +41,7 @@ public class ProductController {
         return "product/product-list";
     }
     
-    @GetMapping("/user/dashboard")
-    String userGetAllProducts(Model model){
-        List<ProductDto> products = productService.getAll();
-        model.addAttribute("products", products);
-        return "product/user-product-list";
-    }
+   
 
     @GetMapping("/add")
     public String addProductForm(Model model) {
@@ -105,6 +109,15 @@ public class ProductController {
         }
         return "redirect:/products"; // Redirige a la lista de productos después de eliminar
     }
+    
+    @GetMapping("/user/dashboard")
+    String userGetAllProducts(Model model){
+        List<ProductDto> products = productService.getAll();
+        model.addAttribute("products", products);
+        return "product/user-product-list";
+    }
+    
+      
     
    
 
