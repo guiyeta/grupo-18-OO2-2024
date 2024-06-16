@@ -19,7 +19,7 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int currentStock;
-    private int criticStock; //Podría ser por ejemplo un valor random entre 5 y 20
+    private int criticStock;
 
     @OneToOne
     @JoinColumn(name = "product_id")

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Purchase Order</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Add Purchase Order</h1>
+    <form th:action="@{/purchase-order/add}" th:object="${purchaseOrderDto}" method="post">
+        <div class="form-group">
+            <label for="productName">Product Name</label>
+            <input type="text" id="productName" th:field="*{productName}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}">Product Name Error</div>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" th:field="*{amount}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">Amount Error</div>
+        </div>
+        <div class="form-group">
+            <label for="orderDate">Order Date</label>
+            <input type="date" id="orderDate" th:field="*{orderDate}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('orderDate')}" th:errors="*{orderDate}">Order Date Error</div>
+        </div>
+
+        <div class="form-group">
+            <label for="supplier">Supplier</label>
+            <input type="text" id="supplier" th:field="*{supplier}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('supplier')}" th:errors="*{supplier}">Supplier Error</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Purchase Order</button>
+
+        <div id="success" th:if="${param.success}" class="alert alert-success">>
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+    </form>
+</div>
+</body>
+</html>

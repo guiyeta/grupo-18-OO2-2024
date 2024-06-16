@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface IStockRepository extends JpaRepository<Stock, Serializable> {
 
-    public abstract Optional<Stock> findById(Long id);
+
 }

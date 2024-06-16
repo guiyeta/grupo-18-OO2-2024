@@ -2,21 +2,18 @@ package com.unla.grupo18.services.implementation;
 
 
 import com.unla.grupo18.dto.LotDto;
-import com.unla.grupo18.dto.ProductDto;
-import com.unla.grupo18.dto.PurchaseOrderDto;
+import com.unla.grupo18.dto.LotDtoAdd;
 import com.unla.grupo18.entities.Lot;
-import com.unla.grupo18.entities.Product;
 import com.unla.grupo18.entities.PurchaseOrder;
-import com.unla.grupo18.exceptions.ProductNotFoundException;
+import com.unla.grupo18.entities.Stock;
 import com.unla.grupo18.repositories.ILotRepository;
-import com.unla.grupo18.repositories.IProductRepository;
 import com.unla.grupo18.services.ILotService;
-import com.unla.grupo18.services.IProductService;
 import com.unla.grupo18.services.IPurchaseOrderService;
+import com.unla.grupo18.services.IStockService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,69 +21,54 @@ import java.util.stream.Collectors;
 public class LotService implements ILotService {
 
     private final ILotRepository lotRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
-
     private final IPurchaseOrderService purchaseOrderService;
-    private final IProductService productService;
+    private final ModelMapper modelMapper = new ModelMapper();
+    private final IStockService stockService;
 
-    public LotService(ILotRepository lotRepository, IPurchaseOrderService purchaseOrderService, IProductService productService) {
+
+    public LotService(ILotRepository lotRepository, IPurchaseOrderService purchaseOrderService, IStockService stockService) {
         this.lotRepository = lotRepository;
         this.purchaseOrderService = purchaseOrderService;
-        this.productService = productService;
+        this.stockService = stockService;
     }
 
     @Override
-    public List<LotDto> getAll() {
-
+    public List<LotDto> findAll() {
         List<Lot> lots = lotRepository.findAll();
         return lots
                 .stream()
-                .map(lot -> modelMapper.map(lot, LotDto.class))
+                .map(stock -> modelMapper.map(stock, LotDto.class))
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public LotDto findById(Long id) {
-          Lot lot = lotRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Lot not found with id " + id));
-        return modelMapper.map(lot,LotDto.class);
-    }
+    @Transactional
+    public Lot save(LotDtoAdd lotDtoAdd) throws Exception{
 
-    @Override
-    public LotDto save(Lot lot) throws Exception {
+        PurchaseOrder purchaseOrder= null;
         try {
-            PurchaseOrder purchaseOrder = purchaseOrderService.findById(lot.getPurchaseOrder().getId());
-            Product product = productService.findById(lot.getProduct().getId());
-            Lot receivedLot = new Lot();
+            purchaseOrder = purchaseOrderService.findById(lotDtoAdd.getPurchaseOrderId());
 
-            receivedLot.setReceptionDate(LocalDate.now());
-            receivedLot.setSupplier(lot.getSupplier());
-            receivedLot.setReceivedAmount(lot.getReceivedAmount());
-            receivedLot.setPurchasePrice(lot.getPurchasePrice());
-            receivedLot.setProduct(product);
-            receivedLot.setPurchaseOrder(purchaseOrder);
+            if (lotDtoAdd.getReceptionDate().isBefore(purchaseOrder.getOrderDate())) {
+                throw new Exception("Reception date cannot be before order date. ("+ purchaseOrder.getOrderDate() +")");
+            }
+            purchaseOrder.setStatus("Received");
 
-            purchaseOrder.setStatus("Completed");
-            purchaseOrderService.save(purchaseOrder);
+            Stock stock = purchaseOrder.getProduct().getStock();
+            if (stock == null) {
+                throw new Exception("Stock not found for the product");
+            }
+            stock.updateStock(purchaseOrder.getAmount());
 
-            receivedLot.registerEntry();
-            return modelMapper.map(lotRepository.save(receivedLot), LotDto.class);
-        }catch (Exception e) {
-            String errorMessage = "Error occurred while saving the lot: " + e.getMessage();
-            throw new Exception(errorMessage);
+            stockService.save(stock);
+
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
 
-    }
+        Lot lot = new Lot();
+        lot.setPurchaseOrder(purchaseOrder);
+        lot.setReceptionDate(lotDtoAdd.getReceptionDate());
 
-    @Override
-    public LotDto update(Lot lot) throws Exception {
-        return null;
-    }
-
-    @Override
-    public boolean remove(Long id) throws ProductNotFoundException {
-        return false;
+        return lotRepository.save(lot);
     }
 }
-
-

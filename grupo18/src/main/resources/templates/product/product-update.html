@@ -24,9 +24,9 @@
             <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
         </div>
         <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" step="0.01" id="price" th:field="*{price}" class="form-control"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</div>
+            <label for="costPrice">CostPrice</label>
+            <input type="number" step="0.01" id="costPrice" th:field="*{costPrice}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('costPrice')}" th:errors="*{costPrice}">Price Error</div>
         </div>
         <button type="submit" class="btn btn-primary">Update Product</button>
         <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Lot</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Add Lot</h1>
+    <form th:action="@{/lots/add}" th:object="${lotDto}" method="post">
+        <div class="form-group">
+            <label for="purchaseOrderId">Purchase Order ID</label>
+            <input type="text" id="purchaseOrderId" th:field="*{purchaseOrderId}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('purchaseOrderId')}" th:errors="*{purchaseOrderId}">Purchase Order ID Error</div>
+        </div>
+        <div class="form-group">
+            <label for="receptionDate">Reception Date</label>
+            <input type="date" id="receptionDate" th:field="*{receptionDate}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('receptionDate')}" th:errors="*{receptionDate}">Reception Date Error</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Lot</button>
+
+        <div id="success" th:if="${param.success}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+    </form>
+</div>
+</body>
+</html>

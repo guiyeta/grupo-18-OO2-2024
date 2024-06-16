@@ -18,8 +18,7 @@ public interface IProductRepository extends JpaRepository<Product, Serializable>
     public abstract Optional<Product> findByName(String name);
     public abstract Optional<Product> findById(Long id);
 
-    @Query("SELECT p FROM Product p WHERE p.price <= :maxPrice")
-    List<Product> findByPriceLessThanOrEqual(double maxPrice);
+
 
 
 

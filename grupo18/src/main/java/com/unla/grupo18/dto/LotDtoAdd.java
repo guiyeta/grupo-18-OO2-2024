@@ -11,14 +11,10 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LotDto {
+public class LotDtoAdd {
 
     private Long id;
     private Long purchaseOrderId;
     private LocalDate receptionDate;
-    private String purchaseOrderProductName;
-    private int purchaseOrderAmount;
-    private LocalDate purchaseOrderOrderDate;
-    private String purchaseOrderSupplier;
 
 }

@@ -26,11 +26,11 @@ public class PurchaseOrder {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private int quantity;
+    private int amount;
     private LocalDate orderDate;
-    private String status; // Por ejemplo: "Pending", "Completed". Puedo hacer un ENUM tmb o int con 0 y 1
-
+    private String status;
     private String supplier;
+    private double totalPrice;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

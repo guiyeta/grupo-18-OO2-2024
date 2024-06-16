@@ -1,41 +1,31 @@
 package com.unla.grupo18.services.implementation;
 
 
+
 import com.unla.grupo18.dto.ProductDto;
+import com.unla.grupo18.dto.ProductDtoAdd;
 import com.unla.grupo18.entities.Product;
-import com.unla.grupo18.exceptions.ProductNotFoundException;
+import com.unla.grupo18.entities.Stock;
 import com.unla.grupo18.repositories.IProductRepository;
 import com.unla.grupo18.services.IProductService;
+import com.unla.grupo18.services.IStockService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ProductService implements IProductService {
 
     private final IProductRepository productRepository;
+    private final IStockService stockService;
     private final ModelMapper modelMapper = new ModelMapper();
 
-    public ProductService(IProductRepository productRepository) {
+    public ProductService(IProductRepository productRepository, IStockService stockService) {
         this.productRepository = productRepository;
-    }
-
-    @Override
-    public List<ProductDto> findByPriceLessThanOrEqual(double maxPrice) throws Exception {
-        //TODO: Manejar excepcion? SI esta vacio por ejemplo
-        List<Product> products = productRepository.findByPriceLessThanOrEqual(maxPrice);
-
-        if (products.isEmpty()){
-            throw new Exception("There are no products whose value is less than " + maxPrice);
-        }
-
-        return products
-                .stream()
-                .map(product -> modelMapper.map(product, ProductDto.class))
-                .collect(Collectors.toList());
+        this.stockService = stockService;
     }
 
     @Override
@@ -53,52 +43,68 @@ public class ProductService implements IProductService {
                 .orElseThrow(() -> new Exception("Product not found with id " + id));
     }
 
-    @Override
-    public ProductDto findByName(String name) throws ProductNotFoundException {
-        Optional<Product> product = productRepository.findByName(name);
-        if (product.isPresent()) {
-            return modelMapper.map(product.get(),ProductDto.class);
-        } else {
-            throw new ProductNotFoundException("Product with name " + name + " not found");
-        }
-    }
+
 
     @Override
-    public ProductDto findByCode(String code) throws ProductNotFoundException {
-        Optional<Product> product = productRepository.findByCode(code);
-        if (product.isPresent()) {
-            return (modelMapper.map(product.get(), ProductDto.class));
-        } else {
-            throw new ProductNotFoundException("Product with code " + code + " not found");
-        }
+    public Product findByName(String name) throws Exception {
+        return productRepository.findByName(name).orElse(null);
     }
 
 
-    public Product save(ProductDto productDto) throws Exception {
+    @Override
+    public Product findByCode(String code) throws Exception {
+        return productRepository.findByCode(code).orElse(null);
+    }
+
+    @Transactional
+    public Product save(ProductDtoAdd productDto) throws Exception {
+
+        if (findByName(productDto.getName()) != null) {
+            throw new Exception("Product with name " + productDto.getName() + " already exists");
+        }
+
+
+        if (findByCode(productDto.getCode()) != null) {
+            throw new Exception("Product with code " + productDto.getCode() + " already exists");
+        }
+
+
         Product product = modelMapper.map(productDto, Product.class);
-         return productRepository.save(product);
+        product.setSellPrice(productDto.getCostPrice()*1.5);
+        Stock stock = new Stock();
+        stock.setCurrentStock(0);
+        stock.setCriticStock(productDto.getCriticalStock());
+        stock.setProduct(product);
+
+
+        Stock savedStock = stockService.save(stock);
+
+        product.setStock(savedStock);
+        return productRepository.save(product);
 
     }
 
+
     @Override
-    public Product update(ProductDto productDto) throws Exception {
+    public Product update(ProductDtoAdd productDto) throws Exception {
 
         Product productToUpdate = productRepository.findById(productDto.getId()).orElseThrow(() -> new Exception("Product not found"));
 
         productToUpdate.setName(productDto.getName());
         productToUpdate.setDescription(productDto.getDescription());
         productToUpdate.setCode(productDto.getCode());
-        productToUpdate.setPrice(productDto.getPrice());
+        productToUpdate.setCostPrice(productDto.getCostPrice());
 
         return productToUpdate = productRepository.save(productToUpdate);
 
-    }
-
+       }
 
     @Override
-    public boolean remove(Long id) throws ProductNotFoundException {
+    public boolean remove(Long id) throws Exception {
+
+
         if (!productRepository.existsById(id)) {
-            throw new ProductNotFoundException("Product with id " + id + " not found");
+            throw new Exception("Product with id " + id + " not found");
         }
         productRepository.deleteById(id);
         return true;
