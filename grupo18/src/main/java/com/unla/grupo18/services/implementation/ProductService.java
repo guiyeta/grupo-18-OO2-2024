@@ -43,8 +43,6 @@ public class ProductService implements IProductService {
                 .orElseThrow(() -> new Exception("Product not found with id " + id));
     }
 
-
-
     @Override
     public Product findByName(String name) throws Exception {
         return productRepository.findByName(name).orElse(null);

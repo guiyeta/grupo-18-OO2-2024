@@ -37,9 +37,11 @@
                    sec:authorize="hasRole('ROLE_ADMIN')">Edit
                 </a>
 
-                <a th:href="@{/products/buy/{id}(id=${product.id})}" class="btn btn-success btn-sm"
+                <a th:href="@{/user-purchase/add(productName=${product.name})}" class="btn btn-success btn-sm"
                    sec:authorize="hasRole('ROLE_USER')">Buy
                 </a>
+
+
 
                 <form th:action="@{/products/delete/{id}(id=${product.id})}" sec:authorize="hasRole('ROLE_ADMIN')" method="post" style="display: inline;">
                         <input type="hidden" name="_method" value="delete" />

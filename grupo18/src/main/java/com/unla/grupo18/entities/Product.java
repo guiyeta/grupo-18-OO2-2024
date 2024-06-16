@@ -24,6 +24,7 @@ public class Product {
     private String name;
     private double costPrice;
     private double sellPrice;
+
     @OneToOne(mappedBy = "product")
     private Stock stock;
 

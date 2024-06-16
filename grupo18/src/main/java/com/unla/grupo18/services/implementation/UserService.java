@@ -44,4 +44,8 @@ public class UserService implements UserDetailsService {
 		}
 		return new ArrayList<>(grantedAuthorities);
 	}
+
+	com.unla.grupo18.entities.User findByUsername(String username){
+		return userRepository.findByUsername(username);
+	}
 }
