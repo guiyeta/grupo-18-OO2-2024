@@ -18,4 +18,5 @@ public class ProductDto {
     private double costPrice;
     private double sellPrice;
     private int criticalStock;
+    private boolean active;
 }

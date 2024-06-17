@@ -9,4 +9,5 @@ public interface IPurchaseOrderService {
     public PurchaseOrder save(PurchaseOrderDto purchaseOrderDto) throws Exception;
     public List<PurchaseOrderDto> findAll();
     public PurchaseOrder findById(Long id) throws Exception;
+    List<PurchaseOrder> findByProductIdAndStatusPending(Long productId);
 }

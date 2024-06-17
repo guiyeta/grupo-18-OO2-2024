@@ -69,6 +69,7 @@ public class ProductService implements IProductService {
 
         Product product = modelMapper.map(productDto, Product.class);
         product.setSellPrice(productDto.getCostPrice()*1.5);
+        product.setActive(true);
         Stock stock = new Stock();
         stock.setCurrentStock(0);
         stock.setCriticStock(productDto.getCriticalStock());
@@ -92,6 +93,7 @@ public class ProductService implements IProductService {
         productToUpdate.setDescription(productDto.getDescription());
         productToUpdate.setCode(productDto.getCode());
         productToUpdate.setCostPrice(productDto.getCostPrice());
+        productToUpdate.setSellPrice(productDto.getCostPrice()* 1.5);
 
         return productToUpdate = productRepository.save(productToUpdate);
 
@@ -106,5 +108,37 @@ public class ProductService implements IProductService {
         }
         productRepository.deleteById(id);
         return true;
+    }
+
+    public List<ProductDto> getActiveProducts() {
+
+        List<Product> activeProducts = productRepository.findByActiveTrue();
+        return activeProducts
+                .stream()
+                .map(activeProduct -> modelMapper.map(activeProduct, ProductDto.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDto> getNotActiveProducts() {
+        List<Product> notActiveProducts = productRepository.findByActiveFalse();
+        return notActiveProducts
+                .stream()
+                .map(notActiveProduct -> modelMapper.map(notActiveProduct, ProductDto.class))
+                .collect(Collectors.toList());
+    }
+
+
+    @Transactional
+    public void deactivateProduct(Long productId) throws Exception {
+        Product product = findById(productId);
+        product.setActive(false);
+        productRepository.save(product);
+    }
+
+    @Transactional
+    public void activateProduct(Long productId) throws Exception {
+        Product product = findById(productId);
+        product.setActive(true);
+        productRepository.save(product);
     }
 }

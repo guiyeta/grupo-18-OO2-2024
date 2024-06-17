@@ -4,8 +4,10 @@ import com.unla.grupo18.dto.ProductDto;
 import com.unla.grupo18.dto.PurchaseOrderDto;
 import com.unla.grupo18.dto.UserPurchaseDto;
 import com.unla.grupo18.dto.UserPurchaseDtoAdd;
+import com.unla.grupo18.entities.Product;
 import com.unla.grupo18.entities.PurchaseOrder;
 import com.unla.grupo18.entities.UserPurchase;
+import com.unla.grupo18.services.IProductService;
 import com.unla.grupo18.services.IUserPurchaseService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,11 @@ import java.util.List;
 public class UserPurchaseController {
 
     private final IUserPurchaseService userPurchaseService;
+    private final IProductService productService;
 
-    public UserPurchaseController(IUserPurchaseService userPurchaseService) {
+    public UserPurchaseController(IUserPurchaseService userPurchaseService, IProductService productService) {
         this.userPurchaseService = userPurchaseService;
+        this.productService = productService;
     }
 
 
@@ -38,7 +42,7 @@ public class UserPurchaseController {
     @GetMapping("/add")
     public String showUserPurchaseForm(
             @RequestParam(value = "productName", required = true) String productName,
-            Model model) {
+            Model model) throws Exception {
         UserPurchaseDto userPurchaseDto = new UserPurchaseDto();
 
 
@@ -51,21 +55,24 @@ public class UserPurchaseController {
     }
 
     @PostMapping("/add")
-    public String addUserPurchase(@Valid @ModelAttribute("userPurchaseDto") UserPurchaseDtoAdd purchaseOrderDto, BindingResult bindingResult, Model model) {
+    public String addUserPurchase(@Valid @ModelAttribute("userPurchaseDto") UserPurchaseDtoAdd userPurchaseDto, BindingResult bindingResult, Model model) throws Exception {
         if (bindingResult.hasErrors()) {
             return "userPurchase/userPurchase-add";
         }
 
+        Product product = productService.findByName(userPurchaseDto.getProductName());
+        double totalPrice = product.getSellPrice() * userPurchaseDto.getAmount();
+
         try {
-            UserPurchase savedUserPurchase = userPurchaseService.save(purchaseOrderDto);
-            model.addAttribute("successMessage", "Purchase added successfully with ID: " + savedUserPurchase.getId());
-            return "redirect:/products";
+            UserPurchase savedUserPurchase = userPurchaseService.save(userPurchaseDto);
+            model.addAttribute("successMessage", "Purchase added successfully: " + savedUserPurchase.getId());
+            return "redirect:/products/active";
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error adding Purchase Order: " + e.getMessage());
+            model.addAttribute("errorMessage", "Error:" + e.getMessage());
             return "userPurchase/userPurchase-add";
         }
-
-
     }
+
+
 
 }

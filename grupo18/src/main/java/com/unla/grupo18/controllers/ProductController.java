@@ -102,6 +102,36 @@ public class ProductController {
     }
 
 
+    @GetMapping("/active")
+    public String getActiveProducts(Model model) {
+        model.addAttribute("products", productService.getActiveProducts());
+        return "product/product-active-list"; // Nombre del archivo HTML de la vista para productos activos
+    }
+
+    @GetMapping("/inactive")
+    public String getInactiveProducts(Model model) {
+        model.addAttribute("products", productService.getNotActiveProducts());
+        return "product/product-inactive-list"; // Nombre del archivo HTML de la vista para productos inactivos
+    }
+
+    @PostMapping("/deactivate/{id}")
+    public String deactivateProduct(@PathVariable Long id) throws Exception {
+        productService.deactivateProduct(id);
+        return "redirect:/products";
+    }
+
+    @PostMapping("/activate/{id}")
+    public String activateProduct(@PathVariable Long id) throws Exception {
+        productService.activateProduct(id);
+        return "redirect:/products";
+    }
+
+
+
+
+
+
+
 
 
 }

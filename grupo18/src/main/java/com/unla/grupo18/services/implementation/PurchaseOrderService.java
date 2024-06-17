@@ -65,6 +65,11 @@ public class PurchaseOrderService implements IPurchaseOrderService {
                 .orElseThrow(() -> new Exception("Purchase order not found with id " + id));
     }
 
+    @Override
+    public List<PurchaseOrder> findByProductIdAndStatusPending(Long productId){
+        return purchaseOrderRepository.findByProductIdAndStatusPending(productId);
+    }
+
 
 
 }

@@ -30,7 +30,7 @@ public class PurchaseOrderDto {
 
     private String status;
 
-    private String totalPrice;
+    private double totalPrice;
 
     @NotBlank(message = "Supplier  is mandatory")
     private String supplier;

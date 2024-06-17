@@ -17,6 +17,8 @@ public interface IProductRepository extends JpaRepository<Product, Serializable>
     public abstract Optional<Product> findByCode(String code);
     public abstract Optional<Product> findByName(String name);
     public abstract Optional<Product> findById(Long id);
+    public abstract List<Product> findByActiveTrue();
+    public abstract List<Product> findByActiveFalse();
 
 
 

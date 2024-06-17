@@ -5,6 +5,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<div th:replace="fragments/header :: header"></div>
 <div class="container">
     <h1>Add Lot</h1>
     <form th:action="@{/lots/add}" th:object="${lotDto}" method="post">

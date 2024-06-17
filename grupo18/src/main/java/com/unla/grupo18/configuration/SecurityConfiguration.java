@@ -35,9 +35,11 @@ public class SecurityConfiguration {
 				.authorizeHttpRequests(auth -> {
 					auth.requestMatchers("/css/*", "/imgs/*", "/js/*", "/vendor/bootstrap/css/*",
 							"/vendor/jquery/*", "/vendor/bootstrap/js/*", "/api/v1/**").permitAll();
-					auth.requestMatchers("/admin/**").hasRole("ADMIN");
-					auth.requestMatchers("/user/**").hasRole("USER");
+
 					auth.requestMatchers("/products/add", "/products/update/**", "/products/delete/**").hasRole("ADMIN");
+					auth.requestMatchers("/stock/**").hasRole("ADMIN");
+					auth.requestMatchers("/lots/**").hasRole("ADMIN");
+					auth.requestMatchers("/purchase-order/**").hasRole("ADMIN");
 					auth.requestMatchers("/products/buy/**").hasRole("USER");
 					auth.anyRequest().authenticated();
 				})
@@ -46,7 +48,7 @@ public class SecurityConfiguration {
 					login.loginProcessingUrl("/loginprocess");
 					login.usernameParameter("username");
 					login.passwordParameter("password");
-					login.defaultSuccessUrl("/loginsuccess");
+					login.defaultSuccessUrl("/index");
 					login.permitAll();
 				})
 				.logout(logout -> {

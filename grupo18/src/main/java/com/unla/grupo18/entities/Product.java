@@ -34,4 +34,7 @@ public class Product {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    private boolean active;
+
+
 }
