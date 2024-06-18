@@ -2,8 +2,8 @@ package com.unla.grupo18.services;
 
 import com.unla.grupo18.dto.ProductDto;
 import com.unla.grupo18.dto.ProductDtoAdd;
+import com.unla.grupo18.dto.ProductDtoUpdate;
 import com.unla.grupo18.entities.Product;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -19,7 +19,9 @@ public interface IProductService {
 
     public Product save(ProductDtoAdd productDto) throws Exception;
 
-    public Product update(ProductDtoAdd productDto) throws Exception;
+    //public Product update(ProductDtoAdd productDto) throws Exception;
+
+    public Product update(ProductDtoUpdate productDto) throws Exception;
 
     public boolean remove(Long id) throws Exception;
 
@@ -31,5 +33,6 @@ public interface IProductService {
 
     public void activateProduct(Long productId) throws Exception;
 
+    public ProductDtoUpdate getProductById(Long id);
 
 }

@@ -46,8 +46,6 @@ public class SecurityConfiguration {
 					auth.requestMatchers("/purchase-order/**").hasRole("ADMIN");
 					auth.requestMatchers("/products").hasRole("ADMIN");
 					auth.requestMatchers("/user-purchase/**").hasRole("ADMIN");
-
-
 					auth.anyRequest().authenticated();
 
 				})
