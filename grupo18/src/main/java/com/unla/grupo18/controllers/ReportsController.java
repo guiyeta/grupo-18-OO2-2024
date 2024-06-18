@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.unla.grupo18.dto.PurchaseOrderDto;
 import com.unla.grupo18.dto.UserPurchaseDto;
-import com.unla.grupo18.services.IProductService;
 import com.unla.grupo18.services.IPurchaseOrderService;
 import com.unla.grupo18.services.IUserPurchaseService;
-import com.unla.grupo18.entities.PurchaseOrder;
+
+import static com.unla.grupo18.helpers.ViewRouteHelper.REPORTS;
+
+
 
 @Controller
 @RequestMapping("/reports")
@@ -39,7 +41,7 @@ public class ReportsController {
     	 List<UserPurchaseDto> customerPurchases = userPurchaseService.findAll();
     	 model.addAttribute("orders",orders );
     	 model.addAttribute("customerPurchases",customerPurchases );
-    	return "reports/reports";
+    	return REPORTS;
     	
     }
 

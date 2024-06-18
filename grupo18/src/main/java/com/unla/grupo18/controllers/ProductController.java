@@ -112,15 +112,14 @@ public class ProductController {
     @GetMapping("/active")
     public String getActiveProducts(Model model) {
         model.addAttribute("products", productService.getActiveProducts());
-       return "product/product-active-list";
-        //return PRODUCTS_ACTIVE;
+        return PRODUCTS_ACTIVE;
     }
 
     @GetMapping("/inactive")
     public String getInactiveProducts(Model model) {
         model.addAttribute("products", productService.getInactiveProducts());
-        return "product/product-inactive-list"; // Nombre del archivo HTML de la vista para productos inactivos
-        //return PRODUCTS_INACTIVE;
+        // Nombre del archivo HTML de la vista para productos inactivos
+        return PRODUCTS_INACTIVE;
     }
 
     @PostMapping("/deactivate/{id}")
@@ -140,8 +139,8 @@ public class ProductController {
     @GetMapping("/buy")
     public String buyProducts(Model model) {
         model.addAttribute("products", productService.getActiveProducts());
-       return "product/product-active-list";
-        //return PRODUCTS_ACTIVE;
+       
+        return PRODUCTS_ACTIVE;
     }
 
 
