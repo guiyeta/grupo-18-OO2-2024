@@ -13,4 +13,5 @@ public interface ILotService {
 
     public List<LotDto> findAll();
     public Lot save(LotDtoAdd lotDtoAdd) throws Exception;
+    public boolean existsByPurchaseOrderId(Long purchaseOrderId);
 }

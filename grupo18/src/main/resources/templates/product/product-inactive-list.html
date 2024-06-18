@@ -7,7 +7,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
+<div>
+    <th:block th:replace="~{fragments/header :: header}"></th:block>
+</div>
 <div class="container">
     <h1 class="my-4">Inactive Product List</h1>
 
@@ -18,9 +20,8 @@
             <th>Code</th>
             <th>Name</th>
             <th>Description</th>
-            <th sec:authorize="hasRole('ROLE_ADMIN')">Cost Price</th>
-            <th sec:authorize="hasRole('ROLE_ADMIN')">Sell Price</th>
-            <th sec:authorize="hasRole('ROLE_USER')">Price</th>
+            <th>Cost Price</th>
+            <th>Sell Price</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -30,9 +31,9 @@
             <td th:text="${product.code}"></td>
             <td th:text="${product.name}"></td>
             <td th:text="${product.description}"></td>
-            <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${product.costPrice}"></td>
-            <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${product.sellPrice}"></td>
-            <td sec:authorize="hasRole('ROLE_USER')" th:text="${product.sellPrice}"></td>
+            <td th:text="${product.costPrice}"></td>
+            <td th:text="${product.sellPrice}"></td>
+
             <td>
                 <form th:action="@{/products/activate/{id}(id=${product.id})}" method="post" style="display: inline;">
                     <button type="submit" class="btn btn-success btn-sm"
@@ -44,7 +45,8 @@
         </tbody>
     </table>
 
-    <a th:href="@{/products/active}" class="btn btn-primary">Back to Active Products</a>
+    <a th:href="@{/products/active}" class="btn btn-primary">View Active Products</a>
+    <a th:href="@{/products}" class="btn btn-primary">View All Products</a>
 </div>
 </body>
 </html>

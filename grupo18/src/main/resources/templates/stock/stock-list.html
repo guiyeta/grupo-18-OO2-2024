@@ -8,7 +8,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
+<div>
+    <th:block th:replace="~{fragments/header :: header}"></th:block>
+</div>
 <div class="container">
     <h1 class="my-4">Stock List</h1>
 
@@ -16,22 +18,22 @@
         <thead>
         <tr>
             <th>Id</th>
+            <th>Product</th>
             <th>Current Stock</th>
             <th>Critical Stock</th>
-            <th>Product</th>
+
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="stock : ${stocks}">
             <td th:text="${stock.id}"></td>
+            <td th:text="${stock.productName}"></td>
             <td th:text="${stock.currentStock}"></td>
             <td th:text="${stock.criticStock}"></td>
-            <td th:text="${stock.productName}"></td>
             <td>
-
-               <!-- <a th:href="@{/purchase-order/add}" class="btn btn-success">Generate Purchase Order to restock</a>-->
                 <a th:href="@{/purchase-order/add(productName=${stock.productName})}" class="btn btn-success">Generate Purchase Order to restock</a>
+                <a th:href="@{/stock/update/{id}(id=${stock.id})}" class="btn btn-primary btn-sm">Edit</a>
             </td>
         </tr>
         </tbody>

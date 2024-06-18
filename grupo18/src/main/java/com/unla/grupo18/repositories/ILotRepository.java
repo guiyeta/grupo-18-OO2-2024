@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface ILotRepository extends JpaRepository<Lot, Serializable> {
 
     public abstract Optional<Lot> findById(Long id);
+    boolean existsByPurchaseOrderId(Long purchaseOrderId);
 }

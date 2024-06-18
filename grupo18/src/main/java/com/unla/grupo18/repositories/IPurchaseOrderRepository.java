@@ -14,5 +14,5 @@ public interface IPurchaseOrderRepository extends JpaRepository<PurchaseOrder, S
 
     public abstract Optional<PurchaseOrder> findById(Long id);
     @Query("SELECT po FROM PurchaseOrder po WHERE po.product.id = :productId AND po.status = 'PENDING'")
-    List<PurchaseOrder> findByProductIdAndStatusPending(Long productId);
+    public abstract List<PurchaseOrder> findByProductIdAndStatusPending(Long productId);
 }

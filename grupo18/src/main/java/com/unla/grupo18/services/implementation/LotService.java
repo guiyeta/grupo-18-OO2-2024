@@ -44,6 +44,10 @@ public class LotService implements ILotService {
     @Transactional
     public Lot save(LotDtoAdd lotDtoAdd) throws Exception{
 
+        if(lotRepository.existsByPurchaseOrderId(lotDtoAdd.getPurchaseOrderId())){
+            throw new Exception("A Purchase Order already exists with the id " + lotDtoAdd.getPurchaseOrderId());
+        }
+
         PurchaseOrder purchaseOrder= null;
         try {
             purchaseOrder = purchaseOrderService.findById(lotDtoAdd.getPurchaseOrderId());
@@ -58,7 +62,6 @@ public class LotService implements ILotService {
                 throw new Exception("Stock not found for the product");
             }
             stock.updateStock(purchaseOrder.getAmount());
-
             stockService.save(stock);
 
         } catch (Exception e) {
@@ -68,7 +71,17 @@ public class LotService implements ILotService {
         Lot lot = new Lot();
         lot.setPurchaseOrder(purchaseOrder);
         lot.setReceptionDate(lotDtoAdd.getReceptionDate());
-
+        lot.setReceivedAmount(purchaseOrder.getAmount());
+        lot.setProduct(purchaseOrder.getProduct());
+        lot.setPurchasePrice(purchaseOrder.getTotalPrice());
+        lot.setSupplier(purchaseOrder.getSupplier());
         return lotRepository.save(lot);
     }
+
+    @Override
+    public boolean existsByPurchaseOrderId(Long purchaseOrderId) {
+        return lotRepository.existsByPurchaseOrderId(purchaseOrderId);
+    }
+
+
 }

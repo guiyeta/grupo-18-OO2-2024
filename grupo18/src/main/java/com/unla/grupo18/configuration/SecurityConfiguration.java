@@ -36,12 +36,20 @@ public class SecurityConfiguration {
 					auth.requestMatchers("/css/*", "/imgs/*", "/js/*", "/vendor/bootstrap/css/*",
 							"/vendor/jquery/*", "/vendor/bootstrap/js/*", "/api/v1/**").permitAll();
 
-					auth.requestMatchers("/products/add", "/products/update/**", "/products/delete/**").hasRole("ADMIN");
+					//auth.requestMatchers("/products/add", "/products/update/**", "/products/delete/**").hasRole("ADMIN");
+					auth.requestMatchers("/user-purchase/add/**").hasRole("USER");
+					auth.requestMatchers("/products/buy/**").hasRole("USER");
+					auth.requestMatchers("/products/**").hasRole("ADMIN");
 					auth.requestMatchers("/stock/**").hasRole("ADMIN");
 					auth.requestMatchers("/lots/**").hasRole("ADMIN");
+					auth.requestMatchers("/reports/**").hasRole("ADMIN");
 					auth.requestMatchers("/purchase-order/**").hasRole("ADMIN");
-					auth.requestMatchers("/products/buy/**").hasRole("USER");
+					auth.requestMatchers("/products").hasRole("ADMIN");
+					auth.requestMatchers("/user-purchase/**").hasRole("ADMIN");
+
+
 					auth.anyRequest().authenticated();
+
 				})
 				.formLogin(login -> {
 					login.loginPage("/login");

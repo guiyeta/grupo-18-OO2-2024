@@ -1,13 +1,17 @@
 package com.unla.grupo18.controllers;
 
 
+import com.unla.grupo18.dto.ProductDtoAdd;
 import com.unla.grupo18.dto.StockDto;
+import com.unla.grupo18.entities.Stock;
 import com.unla.grupo18.services.IStockService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -23,12 +27,43 @@ public class StockController {
         this.stockService = stockService;
     }
 
+    /*
     @GetMapping("")
     String getAllStocks(Model model){
         List<StockDto> stocks = stockService.findAll();
         model.addAttribute("stocks", stocks);
         return "stock/stock-list";
     }
+    */
+
+    @GetMapping("")
+    String getAllActiveStocks(Model model){
+        List<StockDto> stocks = stockService.findStocksWithActiveProduct();
+        model.addAttribute("stocks", stocks);
+        return "stock/stock-list";
+    }
+
+    @GetMapping("/update/{id}")
+    public String showEditCriticStockForm(@PathVariable Long id, Model model) {
+        Stock stock = stockService.findById(id); // Implement this method in StockService
+        StockDto stockDto = modelMapper.map(stock,StockDto.class);
+        model.addAttribute("stockDto", stockDto);
+        return "stock/stock-update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateCriticStock(@PathVariable Long id,
+                                    @ModelAttribute("stockDto") @Valid  StockDto stockDto,
+                                    BindingResult bindingResult) throws Exception {
+
+        if (bindingResult.hasErrors()) {
+            return "stock/stock-update";
+        }
+
+        stockService.update(stockDto);
+        return "redirect:/stock";
+    }
+
 
 
 }

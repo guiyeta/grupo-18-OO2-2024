@@ -9,7 +9,9 @@
 </head>
 <body>
 
-<div th:replace="fragments/header :: header"></div>
+<div>
+    <th:block th:replace="~{fragments/header :: header}"></th:block>
+</div>
 <div class="container">
     <h1 class="my-4">Product List</h1>
 
@@ -21,9 +23,8 @@
             <th>Code</th>
             <th>Name</th>
             <th>Description</th>
-            <th sec:authorize="hasRole('ROLE_ADMIN')">Cost Price</th>
-            <th sec:authorize="hasRole('ROLE_ADMIN')">Sell Price</th>
-            <th sec:authorize="hasRole('ROLE_USER')">Price</th>
+            <th>Cost Price</th>
+            <th>Sell Price</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -34,13 +35,11 @@
             <td th:text="${product.code}"></td>
             <td th:text="${product.name}"></td>
             <td th:text="${product.description}"></td>
-            <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${product.costPrice}"></td>
+            <td th:text="${product.costPrice}"></td>
             <td th:text="${product.sellPrice}"></td>
-            <td sec:authorize="hasRole('ROLE_ADMIN')">
-                <span th:text="${product.active} ? 'Active' : 'Inactive'"></span>
-            </td>
+            <td th:text="${product.active} ? 'Active' : 'Inactive'"></td>
             <td>
-                <!-- Si el producto está activo, muestra el botón para desactivar -->
+
                 <th:block th:if="${product.active}">
                     <form th:action="@{/products/deactivate/{id}(id=${product.id})}" method="post" style="display: inline;">
                         <button type="submit" class="btn btn-danger btn-sm"
@@ -48,7 +47,7 @@
                         </button>
                     </form>
                 </th:block>
-                <!-- Si el producto está inactivo, muestra el botón para activar -->
+
                 <th:block th:if="${not product.active}">
                     <form th:action="@{/products/activate/{id}(id=${product.id})}" method="post" style="display: inline;">
                         <button type="submit" class="btn btn-success btn-sm"
@@ -56,23 +55,14 @@
                         </button>
                     </form>
                 </th:block>
-                <a th:href="@{/products/update/{id}(id=${product.id})}" class="btn btn-primary btn-sm"
-                   sec:authorize="hasRole('ROLE_ADMIN')">Edit
-                </a>
+                <a th:href="@{/products/update/{id}(id=${product.id})}" class="btn btn-primary btn-sm">Edit</a>
         </tr>
         </tbody>
     </table>
 
-    <a th:href="@{/products/add}" class="btn btn-success"
-       sec:authorize="hasRole('ROLE_ADMIN')">Add Product
-    </a>
-
-    <a th:href="@{/products/inactive}" class="btn btn-warning"
-       sec:authorize="hasRole('ROLE_ADMIN')">View Inactive Products
-    </a>
-    <a th:href="@{/products/active}" class="btn btn-warning"
-       sec:authorize="hasRole('ROLE_ADMIN')">View Active Products
-    </a>
+    <a th:href="@{/products/add}" class="btn btn-success">Add Product</a>
+    <a th:href="@{/products/inactive}" class="btn btn-warning">View Inactive Products</a>
+    <a th:href="@{/products/active}" class="btn btn-warning">View Active Products</a>
 
 </div>
 

@@ -38,19 +38,17 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product findById(Long id) throws Exception {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new Exception("Product not found with id " + id));
+    public Product findById(Long id) {
+        return productRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Product findByName(String name) throws Exception {
+    public Product findByName(String name) {
         return productRepository.findByName(name).orElse(null);
     }
 
-
     @Override
-    public Product findByCode(String code) throws Exception {
+    public Product findByCode(String code) {
         return productRepository.findByCode(code).orElse(null);
     }
 
@@ -60,7 +58,6 @@ public class ProductService implements IProductService {
         if (findByName(productDto.getName()) != null) {
             throw new Exception("Product with name " + productDto.getName() + " already exists");
         }
-
 
         if (findByCode(productDto.getCode()) != null) {
             throw new Exception("Product with code " + productDto.getCode() + " already exists");
@@ -74,10 +71,7 @@ public class ProductService implements IProductService {
         stock.setCurrentStock(0);
         stock.setCriticStock(productDto.getCriticalStock());
         stock.setProduct(product);
-
-
         Stock savedStock = stockService.save(stock);
-
         product.setStock(savedStock);
         return productRepository.save(product);
 
@@ -89,19 +83,25 @@ public class ProductService implements IProductService {
 
         Product productToUpdate = productRepository.findById(productDto.getId()).orElseThrow(() -> new Exception("Product not found"));
 
+        if (findByName(productDto.getName()) != null) {
+            throw new Exception("Product with name " + productDto.getName() + " already exists");
+        }
+
+        if (findByCode(productDto.getCode()) != null) {
+            throw new Exception("Product with code " + productDto.getCode() + " already exists");
+        }
+
         productToUpdate.setName(productDto.getName());
         productToUpdate.setDescription(productDto.getDescription());
         productToUpdate.setCode(productDto.getCode());
         productToUpdate.setCostPrice(productDto.getCostPrice());
         productToUpdate.setSellPrice(productDto.getCostPrice()* 1.5);
-
-        return productToUpdate = productRepository.save(productToUpdate);
+        return productRepository.save(productToUpdate);
 
        }
 
     @Override
     public boolean remove(Long id) throws Exception {
-
 
         if (!productRepository.existsById(id)) {
             throw new Exception("Product with id " + id + " not found");
@@ -109,6 +109,7 @@ public class ProductService implements IProductService {
         productRepository.deleteById(id);
         return true;
     }
+
 
     public List<ProductDto> getActiveProducts() {
 
@@ -119,26 +120,34 @@ public class ProductService implements IProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<ProductDto> getNotActiveProducts() {
-        List<Product> notActiveProducts = productRepository.findByActiveFalse();
-        return notActiveProducts
+    @Override
+    public List<ProductDto> getInactiveProducts() {
+        List<Product> inactiveProducts = productRepository.findByActiveFalse();
+        return inactiveProducts
                 .stream()
-                .map(notActiveProduct -> modelMapper.map(notActiveProduct, ProductDto.class))
+                .map(inactiveProduct -> modelMapper.map(inactiveProduct, ProductDto.class))
                 .collect(Collectors.toList());
     }
 
 
     @Transactional
+    @Override
     public void deactivateProduct(Long productId) throws Exception {
         Product product = findById(productId);
         product.setActive(false);
         productRepository.save(product);
     }
 
+
+
+
     @Transactional
+    @Override
     public void activateProduct(Long productId) throws Exception {
         Product product = findById(productId);
         product.setActive(true);
         productRepository.save(product);
     }
+
+
 }

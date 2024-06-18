@@ -10,6 +10,10 @@ public interface IStockService {
 
     List<StockDto> findAll();
     Stock save(Stock stock);
+    List<StockDto> findStocksWithActiveProduct();
+    public Stock update(StockDto stockDto) throws Exception;
+    public Stock findById(Long id);
+
 
 
 

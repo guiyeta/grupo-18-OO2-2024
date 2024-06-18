@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+import static com.unla.grupo18.helpers.ViewRouteHelper.LOT_ADD;
+import static com.unla.grupo18.helpers.ViewRouteHelper.LOT_LIST;
+
 @Controller
 @RequestMapping("/lots")
 public class LotController {
@@ -30,14 +33,14 @@ public class LotController {
     String getAllLots(Model model){
         List<LotDto> lots = lotService.findAll();
         model.addAttribute("lots", lots);
-        return "lot/lot-list";
+        return LOT_LIST;
     }
 
 
     @GetMapping("/add")
     public String addLotForm(Model model) {
         model.addAttribute("lotDto", new LotDtoAdd());
-        return "lot/lot-add";
+        return LOT_ADD;
     }
 
     @PostMapping("/add")
@@ -45,7 +48,6 @@ public class LotController {
         if (bindingResult.hasErrors()) {
             return "lot/lot-add";
         }
-
         try {
             Lot savedLot = lotService.save(lotDtoAdd);
             model.addAttribute("successMessage", "Lot  added successfully with ID: " + lotDtoAdd.getId());
@@ -54,7 +56,5 @@ public class LotController {
             model.addAttribute("errorMessage", "Error adding lot : " + e.getMessage());
             return "lot/lot-add";
         }
-
-
     }
 }
