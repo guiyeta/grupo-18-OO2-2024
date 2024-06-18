@@ -1,6 +1,7 @@
 package com.unla.grupo18.controllers;
 
 import com.unla.grupo18.dto.ProductDto;
+
 import com.unla.grupo18.dto.PurchaseOrderDto;
 import com.unla.grupo18.dto.UserPurchaseDto;
 import com.unla.grupo18.dto.UserPurchaseDtoAdd;
@@ -16,6 +17,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.unla.grupo18.helpers.ViewRouteHelper.USER_PURCHASE;
+import static com.unla.grupo18.helpers.ViewRouteHelper.USER_PURCHASE_ADD;
 
 @Controller
 @RequestMapping("/user-purchase")
@@ -34,7 +38,7 @@ public class UserPurchaseController {
     String getAllUserPurchases(Model model){
         List<UserPurchaseDto> purchases = userPurchaseService.findAll();
         model.addAttribute("purchases", purchases);
-        return "userPurchase/userPurchase-list";
+        return USER_PURCHASE;
     }
 
 
@@ -51,13 +55,13 @@ public class UserPurchaseController {
         }
 
         model.addAttribute("userPurchaseDto", userPurchaseDto);
-        return "userPurchase/userPurchase-add";
+        return USER_PURCHASE_ADD;
     }
 
     @PostMapping("/add")
     public String addUserPurchase(@Valid @ModelAttribute("userPurchaseDto") UserPurchaseDtoAdd userPurchaseDto, BindingResult bindingResult, Model model) throws Exception {
         if (bindingResult.hasErrors()) {
-            return "userPurchase/userPurchase-add";
+            return USER_PURCHASE_ADD;
         }
 
         Product product = productService.findByName(userPurchaseDto.getProductName());
@@ -66,10 +70,10 @@ public class UserPurchaseController {
         try {
             UserPurchase savedUserPurchase = userPurchaseService.save(userPurchaseDto);
             model.addAttribute("successMessage", "Purchase added successfully: " + savedUserPurchase.getId());
-            return "redirect:/products/active";
+            return "redirect:/products/buy";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error:" + e.getMessage());
-            return "userPurchase/userPurchase-add";
+            return USER_PURCHASE_ADD;
         }
     }
 

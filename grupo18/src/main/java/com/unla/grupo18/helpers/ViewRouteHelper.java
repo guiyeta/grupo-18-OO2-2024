@@ -33,6 +33,9 @@ public class ViewRouteHelper {
 	public final static String STOCK = "stock/stock-list";
 	public final static String STOCK_UPDATE = "stock/stock-update";
 	
+	//USER PURCHASE
+	public final static String USER_PURCHASE ="userPurchase/userPurchase-list";
+	public final static String USER_PURCHASE_ADD ="userPurchase/userPurchase-add";
 	/**** Redirects ****/
 	public final static String ROUTE = "redirect:/index";
 	

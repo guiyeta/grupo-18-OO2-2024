@@ -3,17 +3,23 @@ package com.unla.grupo18.controllers;
 
 import com.unla.grupo18.dto.PurchaseOrderDto;
 
+
 import com.unla.grupo18.entities.PurchaseOrder;
 import com.unla.grupo18.services.IPurchaseOrderService;
 import jakarta.validation.Valid;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import static com.unla.grupo18.helpers.ViewRouteHelper.PURCHASE;
+import static com.unla.grupo18.helpers.ViewRouteHelper.PURCHASE_ADD;
 
 @Controller
+
 @RequestMapping("/purchase-order")
 public class PurchaseOrderController {
 
@@ -27,7 +33,7 @@ public class PurchaseOrderController {
     String getAllPurchaseOrders(Model model){
         List<PurchaseOrderDto> orders = purchaseOrderService.findAll();
         model.addAttribute("orders", orders);
-        return "purchaseOrder/purchaseOrder-list";
+        return PURCHASE;
     }
 
 
@@ -43,7 +49,7 @@ public class PurchaseOrderController {
         }
 
         model.addAttribute("purchaseOrderDto", purchaseOrderDto);
-        return "purchaseOrder/purchaseOrder-add";
+        return PURCHASE_ADD;
     }
 
 
@@ -51,7 +57,7 @@ public class PurchaseOrderController {
     @PostMapping("/add")
     public String addPurchaseOrder(@Valid @ModelAttribute("purchaseOrderDto") PurchaseOrderDto purchaseOrderDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "purchaseOrder/purchaseOrder-add";
+            return PURCHASE_ADD;
         }
 
         try {
@@ -60,7 +66,7 @@ public class PurchaseOrderController {
             return "redirect:/purchase-order/add?success";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error adding Purchase Order: " + e.getMessage());
-            return "purchaseOrder/purchaseOrder-add";
+            return PURCHASE_ADD;
         }
 
 
