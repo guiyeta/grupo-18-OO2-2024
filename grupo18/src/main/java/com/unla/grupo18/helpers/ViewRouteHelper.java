@@ -13,16 +13,30 @@ public class ViewRouteHelper {
 	//LOTS
 	public final static String LOT_LIST = "lot/lot-list";
 	public final static String LOT_ADD = "lot/lot-add";
+	
 
 	//PRODUCTS
-	/*
 	public final static String PRODUCTS = "product/product-list";
 	public final static String PRODUCTS_INACTIVE = "product/product-inactive-list";
 	public final static String PRODUCTS_ACTIVE = "product/product-active-list";
 	public final static String PRODUCT_ADD = "product/product-add";
 	public final static String PRODUCT_UPDATE = "product/product-update";
-	*/
+	
+	//PURCHASE ORDER
+	public final static String PURCHASE = "purchaseOrder/purchaseOrder-list";
+	public final static String PURCHASE_ADD = "purchaseOrder/purhcaseOrder-add";
+	
+	//REPORTS
+	public final static String REPORTS = "reports/reports";
+	
+	//STOCK
+	public final static String STOCK = "stock/stock-list";
+	public final static String STOCK_UPDATE = "stock/stock-update";
+	
 	/**** Redirects ****/
-	public final static String ROUTE = "/index";
+	public final static String ROUTE = "redirect:/index";
+	
+	
+	
 	
 }

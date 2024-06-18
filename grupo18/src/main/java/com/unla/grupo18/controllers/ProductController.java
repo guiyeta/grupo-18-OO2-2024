@@ -48,7 +48,7 @@ public class ProductController {
     public String addProduct(@Valid @ModelAttribute("productDto") ProductDtoAdd productDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "product/product-add";
-            //return PRODUCT_ADD;
+            
         }
 
         try {
@@ -59,7 +59,7 @@ public class ProductController {
             return "product/product-add";
             //return PRODUCT_ADD;
         }
-        return "product/product-list";
+        return "redirect:/products";
         //return PRODUCTS;
     }
 

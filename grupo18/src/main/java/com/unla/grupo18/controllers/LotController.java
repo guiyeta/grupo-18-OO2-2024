@@ -46,7 +46,7 @@ public class LotController {
     @PostMapping("/add")
     public String addLot(@Valid @ModelAttribute("lotDto") LotDtoAdd lotDtoAdd, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "lot/lot-add";
+            return LOT_ADD;
         }
         try {
             Lot savedLot = lotService.save(lotDtoAdd);
@@ -54,7 +54,7 @@ public class LotController {
             return "redirect:/lots/add?success";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error adding lot : " + e.getMessage());
-            return "lot/lot-add";
+            return LOT_ADD;
         }
     }
 }
