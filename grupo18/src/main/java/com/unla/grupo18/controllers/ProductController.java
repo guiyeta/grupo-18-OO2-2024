@@ -33,21 +33,21 @@ public class ProductController {
     String getAllProducts(Model model){
         List<ProductDto> products = productService.getAll();
         model.addAttribute("products", products);
-        return "product/product-list";
-        //return PRODUCTS;
+        
+        return PRODUCTS;
     }
 
     @GetMapping("/add")
     public String addProductForm(Model model) {
         model.addAttribute("productDto", new ProductDtoAdd());
-        return "product/product-add";
-       // return PRODUCT_ADD;
+        
+        return PRODUCT_ADD;
     }
 
     @PostMapping("/add")
     public String addProduct(@Valid @ModelAttribute("productDto") ProductDtoAdd productDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "product/product-add";
+            return "PRODUCT_ADD";
             
         }
 
@@ -56,8 +56,8 @@ public class ProductController {
             model.addAttribute("successMessage", "Product added successfully!"); // Añade mensaje de éxito al modelo
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error adding product: " + e.getMessage()); // Añade mensaje de error al modelo
-            return "product/product-add";
-            //return PRODUCT_ADD;
+           
+            return PRODUCT_ADD;
         }
         return "redirect:/products";
         //return PRODUCTS;
