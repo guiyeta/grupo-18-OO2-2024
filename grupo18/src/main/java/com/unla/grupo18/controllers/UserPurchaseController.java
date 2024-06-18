@@ -53,6 +53,7 @@ public class UserPurchaseController {
         if (productName != null) {
             userPurchaseDto.setProductName(productName);
         }
+        
 
         model.addAttribute("userPurchaseDto", userPurchaseDto);
         return USER_PURCHASE_ADD;
@@ -66,7 +67,7 @@ public class UserPurchaseController {
 
         Product product = productService.findByName(userPurchaseDto.getProductName());
         double totalPrice = product.getSellPrice() * userPurchaseDto.getAmount();
-
+        model.addAttribute(totalPrice);
         try {
             UserPurchase savedUserPurchase = userPurchaseService.save(userPurchaseDto);
             model.addAttribute("successMessage", "Purchase added successfully: " + savedUserPurchase.getId());
