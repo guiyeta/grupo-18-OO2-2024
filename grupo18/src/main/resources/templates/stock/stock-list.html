@@ -32,8 +32,10 @@
             <td th:text="${stock.currentStock}"></td>
             <td th:text="${stock.criticStock}"></td>
             <td>
-                <a th:href="@{/purchase-order/add(productName=${stock.productName})}" class="btn btn-success">Generate Purchase Order to restock</a>
                 <a th:href="@{/stock/update/{id}(id=${stock.id})}" class="btn btn-primary btn-sm">Edit</a>
+            </td>
+                 <td th:if="${stock.currentStock <= stock.criticStock}">
+                <a th:href="@{/purchase-order/add(productName=${stock.productName})}" class="btn btn-success">Restock Need</a>
             </td>
         </tr>
         </tbody>

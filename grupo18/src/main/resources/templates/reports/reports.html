@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Reports</title>
+	<link rel="stylesheet" href="css/reports.css">
+</head>
+
+<body>
+	<h1>Reports</h1>
+
+	<div class="tabsNav">
+
+		<div class="tab">
+
+			<input type="radio" name="tabs" id="t1" checked>
+
+			<label for="t1">Purchase Order</label>
+
+			<div class="container">
+				<h1 class="my-4">Purchase Orders</h1>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Product Name</th>
+							<th>Amount</th>
+							<th>Order Date</th>
+							<th>Status</th>
+							<th>Supplier</th>
+							<th>Total Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="order : ${orders}">
+							<td th:text="${order.id}"></td>
+							<td th:text="${order.productName}"></td>
+							<td th:text="${order.amount}"></td>
+							<td th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></td>
+
+							<td th:text="${order.status}"></td>
+							<td th:text="${order.supplier}"></td>
+							<td th:text="${order.totalPrice}"></td>
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+
+		<div class="tab">
+
+			<input type="radio" name="tabs" id="t2">
+
+			<label for="t2">User Purchases</label>
+
+			<div class="container">
+				<h1 class="my-4">User Purchases List</h1>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>User</th>
+							<th>Product Name</th>
+							<th>Amount</th>
+							<th>Total Price</th>
+							<th>Purchase Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="purchase : ${customerPurchases}">
+							<td th:text="${purchase.id}"></td>
+							<td th:text="${purchase.userUsername}"></td>
+							<td th:text="${purchase.productName}"></td>
+							<td th:text="${purchase.amount}"></td>
+							<td th:text="${purchase.totalPrice}"></td>
+							<td th:text="${#temporals.format(purchase.purchaseDate, 'dd/MM/yyyy')}"></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+
+		</div>
+	</div>
+</body>
+
+</html>
