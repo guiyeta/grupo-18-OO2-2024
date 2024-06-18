@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -32,7 +33,6 @@
             <div class="text-danger" th:if="${#fields.hasErrors('costPrice')}" th:errors="*{costPrice}">Price Error</div>
         </div>
 
-
         <button type="submit" class="btn btn-primary">Update Product</button>
         <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
         <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
@@ -40,3 +40,54 @@
 </div>
 </body>
 </html>
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Product</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Edit Product</h1>
+    <form th:action="@{/products/update/{id}(id=${productDTO.id})}" th:object="${productDTO}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="code">Code:</label>
+            <input type="text" id="code" th:field="*{code}" class="form-control" maxlength="20" required />
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Code Error</div>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" maxlength="50" required />
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" id="description" th:field="*{description}" class="form-control" maxlength="100" required />
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</div>
+        </div>
+
+        <div class="form-group">
+            <label for="costPrice">Cost Price:</label>
+            <input type="number" id="costPrice" th:field="*{costPrice}" class="form-control" min="0" required />
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('costPrice')}" th:errors="*{costPrice}">Cost Price Error</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+
+        <div class="alert alert-danger mt-3" th:if="${error}">
+            <p th:text="${error}"></p>
+        </div>
+    </form>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>

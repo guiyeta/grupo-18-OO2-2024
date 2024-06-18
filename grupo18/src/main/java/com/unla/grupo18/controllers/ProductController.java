@@ -3,6 +3,7 @@ package com.unla.grupo18.controllers;
 
 import com.unla.grupo18.dto.ProductDto;
 import com.unla.grupo18.dto.ProductDtoAdd;
+import com.unla.grupo18.dto.ProductDtoUpdate;
 import com.unla.grupo18.entities.Product;
 import com.unla.grupo18.services.IProductService;
 import jakarta.validation.Valid;
@@ -63,51 +64,42 @@ public class ProductController {
         //return PRODUCTS;
     }
 
-/*
+
     @GetMapping("/update/{id}")
-    public String updateProductForm(@PathVariable Long id, Model model) throws Exception {
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
 
         try {
-            //esto cambiarlo despues -> hacer el mapeo en el service
-            //model.addAttribute("productDto",  modelMapper.map( productService.findById(id), ProductDtoAdd.class));
-            Product product = productService.findById(id); // Método ficticio para encontrar el producto por ID
-            ProductDtoAdd productDto = new ProductDtoAdd();
-            productDto.setId(product.getId());
-            productDto.setCode(product.getCode());
-            productDto.setDescription(product.getDescription());
-            productDto.setName(product.getName());
-            productDto.setCostPrice(product.getCostPrice());
-            productDto.setCriticalStock(product.getStock().getCriticStock());
-            model.addAttribute("productDto", productDto);
-            return "product/product-update";
-            //return PRODUCT_UPDATE;
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Product not found");
-            return "redirect:/products";
-            //return PRODUCTS;
+            ProductDtoUpdate productDTO = productService.getProductById(id);
+            model.addAttribute("productDTO", productDTO);
+        } catch ( Exception e){
+            model.addAttribute("error", e.getMessage());
         }
+
+        return "product/product-update";
     }
 
     @PostMapping("/update/{id}")
-    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute("productDto") ProductDtoAdd productDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "product/product-update";
-           // return PRODUCT_UPDATE;
+    public String updateProduct(@PathVariable("id") Long id,
+                                @ModelAttribute("productDTO")
+                                @Valid ProductDtoUpdate productDTO,
+                                BindingResult result, Model model)  throws Exception {
+
+        if (result.hasErrors()) {
+            model.addAttribute("productDTO", productDTO);
+            return "products/product-update";
         }
+
+
         try {
-            productDto.setId(id);
-            productService.update(productDto);
-            redirectAttributes.addFlashAttribute("successMessage", "Product updated successfully!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error updating product: " + e.getMessage());
-        }
+            productService.update(productDTO);
+            return "redirect:/products";
 
-        return "redirect:/products";
-        //return PRODUCTS;
+        }catch (Exception e){
+                model.addAttribute("error", e.getMessage());
+                return "product/product-update";
+            }
+
     }
-    
- */
-
 
     @GetMapping("/active")
     public String getActiveProducts(Model model) {
