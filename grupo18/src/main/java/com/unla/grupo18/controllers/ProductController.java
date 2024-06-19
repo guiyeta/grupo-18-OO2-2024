@@ -48,7 +48,7 @@ public class ProductController {
     @PostMapping("/add")
     public String addProduct(@Valid @ModelAttribute("productDto") ProductDtoAdd productDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "PRODUCT_ADD";
+            return PRODUCT_ADD;
             
         }
 
