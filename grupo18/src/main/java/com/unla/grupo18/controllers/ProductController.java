@@ -110,7 +110,6 @@ public class ProductController {
     @GetMapping("/inactive")
     public String getInactiveProducts(Model model) {
         model.addAttribute("products", productService.getInactiveProducts());
-        // Nombre del archivo HTML de la vista para productos inactivos
         return PRODUCTS_INACTIVE;
     }
 

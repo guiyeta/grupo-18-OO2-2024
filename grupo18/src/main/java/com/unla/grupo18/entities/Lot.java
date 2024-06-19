@@ -22,7 +22,8 @@ public class Lot {
     private LocalDate receptionDate;
     private String supplier;
     private int receivedAmount ;
-    private double purchasePrice; //Calcular precioDelProducto x cantidad
+    private double purchasePrice; 
+    //Calcular precioDelProducto x cantidad
 
     @ManyToOne
     @JoinColumn(name = "product_id")

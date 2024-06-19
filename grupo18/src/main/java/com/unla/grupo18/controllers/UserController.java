@@ -29,6 +29,7 @@ public class UserController {
 
 	@GetMapping("/loginsuccess")
 	public String loginCheck() {
+		/*
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 
@@ -39,8 +40,8 @@ public class UserController {
 			if (role.equals("ROLE_ADMIN")) {
 				return "redirect:/admin/dashboard";
 			}
-
-			return "redirect:/user/dashboard";
+			*/
+			return ViewRouteHelper.ROUTE;
     }
 
 

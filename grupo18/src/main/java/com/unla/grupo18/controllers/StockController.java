@@ -31,15 +31,7 @@ public class StockController {
         this.stockService = stockService;
     }
 
-    /*
-    @GetMapping("")
-    String getAllStocks(Model model){
-        List<StockDto> stocks = stockService.findAll();
-        model.addAttribute("stocks", stocks);
-        return "stock/stock-list";
-    }
-    */
-
+ 
     @GetMapping("")
     String getAllActiveStocks(Model model){
         List<StockDto> stocks = stockService.findStocksWithActiveProduct();
@@ -49,7 +41,7 @@ public class StockController {
 
     @GetMapping("/update/{id}")
     public String showEditCriticStockForm(@PathVariable Long id, Model model) {
-        Stock stock = stockService.findById(id); // Implement this method in StockService
+        Stock stock = stockService.findById(id); 
         StockDto stockDto = modelMapper.map(stock,StockDto.class);
         model.addAttribute("stockDto", stockDto);
         return STOCK_UPDATE;
