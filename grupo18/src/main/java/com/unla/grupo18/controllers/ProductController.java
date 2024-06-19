@@ -116,15 +116,15 @@ public class ProductController {
     @PostMapping("/deactivate/{id}")
     public String deactivateProduct(@PathVariable Long id) throws Exception {
         productService.deactivateProduct(id);
-       return "redirect:/products/active";
-       // return PRODUCTS;
+       return RPRODUCT;
+
     }
 
     @PostMapping("/activate/{id}")
     public String activateProduct(@PathVariable Long id) throws Exception {
         productService.activateProduct(id);
-         return "redirect:/products/inactive";
-        //return PRODUCTS;
+         return RPRODUCT;
+        
     }
 
     @GetMapping("/buy")
