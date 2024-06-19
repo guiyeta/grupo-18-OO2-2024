@@ -30,12 +30,14 @@ public class PurchaseOrderService implements IPurchaseOrderService {
     @Override
     public PurchaseOrder save(PurchaseOrderDto purchaseOrderDto) throws Exception {
         Product product = null;
-        try {
+        
             product = productService.findByName(purchaseOrderDto.getProductName());
-
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+            if(product==null) {
+            	throw new Exception("Cant found a product whit name:" + purchaseOrderDto.getProductName());
+            }
+        
+          
+        
         PurchaseOrder purchaseOrder = new PurchaseOrder();
         purchaseOrder.setProduct(product);
         purchaseOrder.setAmount(purchaseOrderDto.getAmount());
