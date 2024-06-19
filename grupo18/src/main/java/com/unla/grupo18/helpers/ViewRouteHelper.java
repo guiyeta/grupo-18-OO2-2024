@@ -24,7 +24,7 @@ public class ViewRouteHelper {
 	
 	//PURCHASE ORDER
 	public final static String PURCHASE = "purchaseOrder/purchaseOrder-list";
-	public final static String PURCHASE_ADD = "purchaseOrder/purhcaseOrder-add";
+	public final static String PURCHASE_ADD = "purchaseOrder/purchaseOrder-add";
 	
 	//REPORTS
 	public final static String REPORTS = "reports/reports";
@@ -36,9 +36,12 @@ public class ViewRouteHelper {
 	//USER PURCHASE
 	public final static String USER_PURCHASE ="userPurchase/userPurchase-list";
 	public final static String USER_PURCHASE_ADD ="userPurchase/userPurchase-add";
+	
+	
 	/**** Redirects ****/
 	public final static String ROUTE = "redirect:/index";
-	
+	public final static String RPRODUCT ="redirect:/products";
+	public final static String RSTOCK = "redirect:/stock";
 	
 	
 	

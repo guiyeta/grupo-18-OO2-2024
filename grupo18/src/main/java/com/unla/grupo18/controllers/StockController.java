@@ -16,8 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-import static com.unla.grupo18.helpers.ViewRouteHelper.STOCK;
-import static com.unla.grupo18.helpers.ViewRouteHelper.STOCK_UPDATE;;
+import static com.unla.grupo18.helpers.ViewRouteHelper.*;
 
 
 @Controller
@@ -66,7 +65,7 @@ public class StockController {
         }
 
         stockService.update(stockDto);
-        return "redirect:/stock";
+        return RSTOCK;
     }
 
 
