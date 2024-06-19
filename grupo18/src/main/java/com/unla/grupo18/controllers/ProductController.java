@@ -60,8 +60,8 @@ public class ProductController {
            
             return PRODUCT_ADD;
         }
-        return "redirect:/products";
-        //return PRODUCTS;
+        return RPRODUCT;
+       
     }
 
 
@@ -75,7 +75,7 @@ public class ProductController {
             model.addAttribute("error", e.getMessage());
         }
 
-        return "product/product-update";
+        return PRODUCT_UPDATE;
     }
 
     @PostMapping("/update/{id}")
@@ -86,17 +86,17 @@ public class ProductController {
 
         if (result.hasErrors()) {
             model.addAttribute("productDTO", productDTO);
-            return "products/product-update";
+            return PRODUCT_UPDATE;
         }
 
 
         try {
             productService.update(productDTO);
-            return "redirect:/products";
+            return RPRODUCT;
 
         }catch (Exception e){
                 model.addAttribute("error", e.getMessage());
-                return "product/product-update";
+                return PRODUCT_UPDATE;
             }
 
     }
@@ -110,7 +110,6 @@ public class ProductController {
     @GetMapping("/inactive")
     public String getInactiveProducts(Model model) {
         model.addAttribute("products", productService.getInactiveProducts());
-        // Nombre del archivo HTML de la vista para productos inactivos
         return PRODUCTS_INACTIVE;
     }
 
