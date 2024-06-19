@@ -24,7 +24,7 @@ public class ViewRouteHelper {
 	
 	//PURCHASE ORDER
 	public final static String PURCHASE = "purchaseOrder/purchaseOrder-list";
-	public final static String PURCHASE_ADD = "purchaseOrder/purhcaseOrder-add";
+	public final static String PURCHASE_ADD = "purchaseOrder/purchaseOrder-add";
 	
 	//REPORTS
 	public final static String REPORTS = "reports/reports";
