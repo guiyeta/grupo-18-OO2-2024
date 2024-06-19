@@ -65,10 +65,10 @@ public class UserPurchaseController {
             return USER_PURCHASE_ADD;
         }
 
-        Product product = productService.findByName(userPurchaseDto.getProductName());
-        double totalPrice = product.getSellPrice() * userPurchaseDto.getAmount();
-        model.addAttribute(totalPrice);
         try {
+            Product product = productService.findByName(userPurchaseDto.getProductName());
+            double totalPrice = product.getSellPrice() * userPurchaseDto.getAmount();
+            model.addAttribute(totalPrice);
             UserPurchase savedUserPurchase = userPurchaseService.save(userPurchaseDto);
             model.addAttribute("successMessage", "Purchase added successfully: " + savedUserPurchase.getId());
             return "redirect:/products/buy";
